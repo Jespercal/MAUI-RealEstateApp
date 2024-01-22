@@ -10,10 +10,10 @@
     x:DataType="vm:PropertyListPageViewModel">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" />
+        <ToolbarItem Command="{Binding GoToAddPropertyCommand}" Text="Add" />
     </ContentPage.ToolbarItems>
 
-    <RefreshView>
+    <RefreshView Command="{Binding GetPropertiesCommand}" IsRefreshing="{Binding IsRefreshing}">
 
         <CollectionView
             BackgroundColor="LightGray"
@@ -25,7 +25,10 @@
                     <Grid Padding="5">
                         <Frame HasShadow="True">
                             <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PropertyListPageViewModel}}, Path=GoToDetailsCommand}" CommandParameter="{Binding .}" />
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PropertyListPageViewModel}}, Path=GoToDetailsCommand}"
+                                    CommandParameter="{Binding .}"
+                                    NumberOfTapsRequired="1" />
                             </Frame.GestureRecognizers>
                             <Grid
                                 Margin="0"
