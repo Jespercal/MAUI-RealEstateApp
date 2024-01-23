@@ -27,6 +27,9 @@ public class PropertyListPageViewModel : BaseViewModel
 
     private Command getPropertiesCommand;
     public ICommand GetPropertiesCommand => getPropertiesCommand ??= new Command(async () => await GetPropertiesAsync());
+    
+    private Command sortPropertiesCommand;
+    public ICommand SortPropertiesCommand => sortPropertiesCommand ??= new Command(async () => await SortAsync());
 
     async Task GetPropertiesAsync()
     {
@@ -36,13 +39,28 @@ public class PropertyListPageViewModel : BaseViewModel
         {
             IsBusy = true;
 
+            if(currentLocation == null)
+            {
+                currentLocation = await Geolocation.GetLastKnownLocationAsync();
+                if (currentLocation == null)
+                    currentLocation = await Geolocation.GetLocationAsync();
+            }
+
             List<Property> properties = service.GetProperties();
+            List<PropertyListItem> propertiesList = new List<PropertyListItem>();
+
+            foreach (Property property in properties)
+            {
+                var item = new PropertyListItem(property);
+                item.CalcDistance(currentLocation);
+                propertiesList.Add(item);
+            }
 
             if (PropertiesCollection.Count != 0)
                 PropertiesCollection.Clear();
 
-            foreach (Property property in properties)
-                PropertiesCollection.Add(new PropertyListItem(property));
+            foreach (PropertyListItem listitem in propertiesList)
+                PropertiesCollection.Add(listitem);
 
         }
         catch (Exception ex)
@@ -55,6 +73,19 @@ public class PropertyListPageViewModel : BaseViewModel
             IsBusy = false;
             IsRefreshing = false;
         }
+    }
+
+    private Location currentLocation;
+
+    public async Task SortAsync()
+    {
+        var sorted = PropertiesCollection.ToList().OrderBy(e => e.Distance ?? 0).ToList();
+
+        if (PropertiesCollection.Count != 0)
+            PropertiesCollection.Clear();
+
+        foreach (PropertyListItem listitem in sorted)
+            PropertiesCollection.Add(listitem);
     }
 
     private Command goToDetailsCommand;

@@ -43,4 +43,11 @@ public class PropertyDetailPageViewModel : BaseViewModel
             {"MyProperty", Property }
         });
     }
+    
+    private Command showLocationCommand;
+    public ICommand ShowLocationCommand => showLocationCommand ??= new Command(async () => await ExecuteShowLocation());
+    async Task ExecuteShowLocation()
+    {
+        await Map.TryOpenAsync( Property.Latitude.Value, Property.Longitude.Value );
+    }
 }

@@ -96,4 +96,18 @@ public class AddEditPropertyPageViewModel : BaseViewModel
 
     private Command cancelSaveCommand;
     public ICommand CancelSaveCommand => cancelSaveCommand ??= new Command(async () => await Shell.Current.GoToAsync(".."));
+    
+    private Command copyCurrentLocationCommand;
+    public ICommand CopyCurrentLocationCommand => copyCurrentLocationCommand ??= new Command(async () =>
+    {
+        IsBusy = true;
+
+        Location loc = await Geolocation.GetLocationAsync();
+        Property.Latitude = loc.Latitude;
+        Property.Longitude = loc.Longitude;
+
+        OnPropertyChanged("Property");
+
+        IsBusy = false;
+    });
 }

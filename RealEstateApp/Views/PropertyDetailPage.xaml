@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:fa="clr-namespace:FontAwesome"
+    xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
     xmlns:vm="clr-namespace:RealEstateApp.ViewModels"
     Title="{Binding Property.Address}"
     x:DataType="vm:PropertyDetailPageViewModel">
@@ -33,7 +34,11 @@
                 Grid.Row="2"
                 FontSize="16"
                 LineBreakMode="NoWrap"
-                Text="{Binding Property.Address}" />
+                Text="{Binding Property.Address}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ShowLocationCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
             <Grid
                 Grid.Row="3"
                 ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
