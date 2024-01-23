@@ -102,11 +102,41 @@ public class AddEditPropertyPageViewModel : BaseViewModel
     {
         IsBusy = true;
 
-        Location loc = await Geolocation.GetLocationAsync();
-        Property.Latitude = loc.Latitude;
-        Property.Longitude = loc.Longitude;
+        try
+        {
+            Location loc = await Geolocation.GetLocationAsync();
+            Property.Latitude = loc.Latitude;
+            Property.Longitude = loc.Longitude;
+            var rawAddress = (await Geocoding.GetPlacemarksAsync(loc.Latitude, loc.Longitude)).First();
+            Property.Address = string.Format("{0} {1}, {2} {3}", rawAddress.Thoroughfare, rawAddress.SubThoroughfare, rawAddress.PostalCode, rawAddress.CountryName);
 
-        OnPropertyChanged("Property");
+            OnPropertyChanged("Property");
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Error", "Could not get your current location...", "OK");
+        }
+
+        IsBusy = false;
+    });
+    
+    private Command locationFromAddressCommand;
+    public ICommand LocationFromAddressCommand => locationFromAddressCommand ??= new Command(async () =>
+    {
+        IsBusy = true;
+
+        try
+        {
+            Location loc = (await Geocoding.GetLocationsAsync(Property.Address)).First();
+            Property.Latitude = loc.Latitude;
+            Property.Longitude = loc.Longitude;
+
+            OnPropertyChanged("Property");
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Error", "Could not get location from address...", "OK");
+        }
 
         IsBusy = false;
     });
