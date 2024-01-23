@@ -22,6 +22,8 @@ public static class MauiProgram
             .UseMauiMaps();
 
         builder.Services.AddSingleton<IPropertyService, MockRepository>();
+        builder.Services.AddSingleton<ConnectivityService>();
+
         builder.Services.AddSingleton<PropertyListPage>();
         builder.Services.AddSingleton<PropertyListPageViewModel>();
 

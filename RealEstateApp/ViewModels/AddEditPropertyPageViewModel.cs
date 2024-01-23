@@ -10,11 +10,41 @@ namespace RealEstateApp.ViewModels;
 public class AddEditPropertyPageViewModel : BaseViewModel
 {
     readonly IPropertyService service;
+    readonly ConnectivityService _connectivityService;
 
-    public AddEditPropertyPageViewModel(IPropertyService service)
+    private string _alertMessage = null;
+    public string AlertMessage
+    {
+        get { return _alertMessage; }
+        set { _alertMessage = value;OnPropertyChanged(); }
+    }
+    
+    private Color _alertColor = Colors.PaleVioletRed;
+    public Color AlertColor
+    {
+        get { return _alertColor; }
+        set { _alertColor = value;OnPropertyChanged(); }
+    }
+
+
+    public AddEditPropertyPageViewModel(IPropertyService service, ConnectivityService connectivityService)
     {
         this.service = service;
+        this._connectivityService = connectivityService;
         Agents = new ObservableCollection<Agent>(service.GetAgents());
+
+        connectivityService.OnStatusChanged += Connectivity_ConnectivityChanged;
+        if(!connectivityService.IsConnected)
+        {
+            AlertColor = Colors.PaleVioletRed;
+            AlertMessage = "You need internet to use location";
+        }
+    }
+
+    private async void Connectivity_ConnectivityChanged(bool status)
+    {
+        AlertColor = !status ? Colors.PaleVioletRed : Colors.Green;
+        AlertMessage = !status ? "Internet connect lost!" : "Internet connection regained!";
     }
 
     public string Mode { get; set; }
@@ -114,7 +144,8 @@ public class AddEditPropertyPageViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlert("Error", "Could not get your current location...", "OK");
+            AlertColor = Colors.PaleVioletRed;
+            AlertMessage = "Could not get your current location...";
         }
 
         IsBusy = false;
@@ -135,9 +166,16 @@ public class AddEditPropertyPageViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlert("Error", "Could not get location from address...", "OK");
+            AlertColor = Colors.PaleVioletRed;
+            AlertMessage = "Could not get location from address...";
         }
 
         IsBusy = false;
+    });
+    
+    private Command closeAlertCommand;
+    public ICommand CloseAlertCommand => closeAlertCommand ??= new Command(async () =>
+    {
+        AlertMessage = null;
     });
 }

@@ -10,6 +10,12 @@
     Title="{Binding Title}"
     x:DataType="vm:AddEditPropertyPageViewModel">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:StringBoolConverter x:Key="stringBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.ToolbarItems>
         <ToolbarItem Command="{Binding CancelSaveCommand}" Text="Cancel" />
         <ToolbarItem Command="{Binding SavePropertyCommand}" Text="Save" />
@@ -201,6 +207,39 @@
                 AbsoluteLayout.LayoutFlags="All"
                 IsRunning="{Binding IsBusy}"
                 IsVisible="{Binding IsBusy}" />
+
+            <Frame
+                Margin="0"
+                Padding="2"
+                AbsoluteLayout.LayoutBounds="0,0,1,0.06"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="{Binding AlertColor}"
+                CornerRadius="0"
+                IsVisible="{Binding AlertMessage, Converter={StaticResource stringBoolConverter}}">
+                <AbsoluteLayout>
+                    <Label
+                        AbsoluteLayout.LayoutBounds="0,0,1,1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        FontSize="Medium"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding AlertMessage}"
+                        TextColor="White"
+                        VerticalTextAlignment="Center" />
+                    <Label
+                        AbsoluteLayout.LayoutBounds="1,0"
+                        AbsoluteLayout.LayoutFlags="PositionProportional"
+                        FontFamily="FA-solid"
+                        FontSize="Large"
+                        HeightRequest="20"
+                        Text="{Static fa:IconFont.X}"
+                        TextColor="White"
+                        WidthRequest="20">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding CloseAlertCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </AbsoluteLayout>
+            </Frame>
         </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>
