@@ -109,6 +109,8 @@ public class AddEditPropertyPageViewModel : BaseViewModel
 
            StatusMessage = "Please fill in all required fields";
             StatusColor = Colors.Red;
+
+            HapticFeedback.Default.Perform(HapticFeedbackType.LongPress);
         }
         else
         {
@@ -141,6 +143,8 @@ public class AddEditPropertyPageViewModel : BaseViewModel
     {
         IsBusy = true;
 
+        HapticFeedback.Default.Perform(HapticFeedbackType.Click);
+
         try
         {
             Location loc = await Geolocation.GetLocationAsync();
@@ -164,6 +168,8 @@ public class AddEditPropertyPageViewModel : BaseViewModel
     public ICommand LocationFromAddressCommand => locationFromAddressCommand ??= new Command(async () =>
     {
         IsBusy = true;
+
+        HapticFeedback.Default.Perform(HapticFeedbackType.Click);
 
         try
         {
