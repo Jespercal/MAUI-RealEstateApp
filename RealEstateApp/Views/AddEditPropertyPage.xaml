@@ -182,6 +182,31 @@
                             Keyboard="Text"
                             Text="{Binding Property.Description}" />
 
+                        <Grid ColumnDefinitions="*,*">
+                            <VerticalStackLayout Grid.Column="0">
+                                <Label FontSize="Medium">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontFamily="FA-solid" Text="{Static fa:IconFont.Compass}" />
+                                            <Span Text=" " />
+                                            <Span Text="Aspect" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Entry
+                                    FontSize="Medium"
+                                    ReturnType="Next"
+                                    Text="{Binding Property.Aspect}" />
+                            </VerticalStackLayout>
+                            <Button
+                                Grid.Column="1"
+                                Command="{Binding GoToCompassCommand}"
+                                FontFamily="FA-solid"
+                                HeightRequest="50"
+                                Text="{Static fa:IconFont.DraftingCompass}"
+                                WidthRequest="100" />
+                        </Grid>
+
                         <Label FontSize="Medium">
                             <Label.FormattedText>
                                 <FormattedString>

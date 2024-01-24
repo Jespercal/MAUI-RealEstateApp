@@ -1,5 +1,6 @@
 ﻿using RealEstateApp.Models;
 using RealEstateApp.Services;
+using RealEstateApp.Views;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -272,5 +273,23 @@ public class AddEditPropertyPageViewModel : BaseViewModel, IDisposable
             FlashlightColor = Colors.White;
             FlashlightOn = true;
         }
+    });
+
+    private Command goToCompassCommand;
+    public ICommand GoToCompassCommand => goToCompassCommand ??= new Command(async () =>
+    {
+        await Shell.Current.GoToAsync(nameof(CompassPage), new Dictionary<string,object>()
+        {
+            { "property", Property }
+        });
+        
+        // Wait until we return to this page again
+        while(Shell.Current.CurrentPage.GetType() != typeof(AddEditPropertyPage))
+        {
+            await Task.Delay(10);
+        }
+
+        // We are back, now we update the Property-property
+        OnPropertyChanged(nameof(Property));
     });
 }

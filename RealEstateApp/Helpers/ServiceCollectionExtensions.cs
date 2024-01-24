@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RealEstateApp.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,8 +18,16 @@ namespace RealEstateApp.Helpers
         {
             var page = ActivatorUtilities.CreateInstance<T>(serviceProvider);
 
+            page.NavigatingFrom += (object sender, NavigatingFromEventArgs e) =>
+            {
+                if ((((ContentPage)sender).BindingContext as ILeaving) == null)
+                    return;
+                (((ContentPage)sender).BindingContext as ILeaving)?.OnLeaving();
+            };
             page.Unloaded += (object sender, EventArgs e) =>
             {
+                if ((((ContentPage)sender).BindingContext as IDisposable) == null)
+                    return;
                 (((ContentPage)sender).BindingContext as IDisposable)?.Dispose();
             };
 
