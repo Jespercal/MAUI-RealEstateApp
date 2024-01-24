@@ -3,11 +3,18 @@
     x:Class="RealEstateApp.Views.PropertyDetailPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:RealEstateApp.Converters"
     xmlns:fa="clr-namespace:FontAwesome"
     xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
     xmlns:vm="clr-namespace:RealEstateApp.ViewModels"
     Title="{Binding Property.Address}"
     x:DataType="vm:PropertyDetailPageViewModel">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBoolConverter x:Key="inverseBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Command="{Binding EditPropertyCommand}" Text="Edit" />
@@ -16,7 +23,7 @@
     <ScrollView>
         <Grid
             Padding="15"
-            RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+            RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
             RowSpacing="10">
             <Image
                 Grid.Row="0"
@@ -86,15 +93,36 @@
                 Text="Description:" />
             <Label
                 Grid.Row="6"
-                Margin="0,0,0,20"
+                Margin="0,0,0,0"
                 FontSize="14"
                 Text="{Binding Property.Description}" />
-            <Label
+            <StackLayout
                 Grid.Row="7"
+                Margin="0,0,0,20"
+                HorizontalOptions="Start">
+                <Button
+                    Command="{Binding TTSCommand}"
+                    CommandParameter="play"
+                    FontFamily="FA-solid"
+                    HeightRequest="35"
+                    IsVisible="{Binding IsPlaying, Converter={StaticResource inverseBoolConverter}}"
+                    Text="{Static fa:IconFont.Play}"
+                    WidthRequest="45" />
+                <Button
+                    Command="{Binding TTSCommand}"
+                    CommandParameter="stop"
+                    FontFamily="FA-solid"
+                    HeightRequest="35"
+                    IsVisible="{Binding IsPlaying}"
+                    Text="{Static fa:IconFont.Stop}"
+                    WidthRequest="45" />
+            </StackLayout>
+            <Label
+                Grid.Row="8"
                 FontAttributes="Bold"
                 FontSize="14"
                 Text="Listed by:" />
-            <Grid Grid.Row="8" ColumnDefinitions="auto, *">
+            <Grid Grid.Row="9" ColumnDefinitions="auto, *">
                 <Image
                     Grid.Column="0"
                     Source="{Binding Agent.ImageUrl}"
