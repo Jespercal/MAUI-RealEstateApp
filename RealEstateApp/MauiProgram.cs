@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using RealEstateApp.Helpers;
 using RealEstateApp.Repositories;
 using RealEstateApp.Services;
 using RealEstateApp.ViewModels;
@@ -23,6 +24,7 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<IPropertyService, MockRepository>();
         builder.Services.AddSingleton<ConnectivityService>();
+        builder.Services.AddSingleton<BatteryService>();
 
         builder.Services.AddSingleton<PropertyListPage>();
         builder.Services.AddSingleton<PropertyListPageViewModel>();
@@ -30,13 +32,18 @@ public static class MauiProgram
         builder.Services.AddTransient<PropertyDetailPage>();
         builder.Services.AddTransient<PropertyDetailPageViewModel>();
 
-        builder.Services.AddTransient<AddEditPropertyPage>();
+        builder.Services.AddPage<AddEditPropertyPage>();
         builder.Services.AddTransient<AddEditPropertyPageViewModel>();
 
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
 
-        return builder.Build();
+        MauiApp app = builder.Build();
+
+        app.Services.GetService<BatteryService>();
+        app.Services.GetService<ConnectivityService>();
+
+        return app;
     }
 }

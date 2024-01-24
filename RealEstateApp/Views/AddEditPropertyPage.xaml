@@ -8,7 +8,8 @@
     xmlns:models="clr-namespace:RealEstateApp.Models"
     xmlns:vm="clr-namespace:RealEstateApp.ViewModels"
     Title="{Binding Title}"
-    x:DataType="vm:AddEditPropertyPageViewModel">
+    x:DataType="vm:AddEditPropertyPageViewModel"
+    ControlTemplate="{StaticResource pageControls}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -17,6 +18,7 @@
     </ContentPage.Resources>
 
     <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding ToggleFlashlightCommand}" IconImageSource="lightbulb_solid.svg" />
         <ToolbarItem Command="{Binding CancelSaveCommand}" Text="Cancel" />
         <ToolbarItem Command="{Binding SavePropertyCommand}" Text="Save" />
     </ContentPage.ToolbarItems>
@@ -223,7 +225,7 @@
                         FontSize="Medium"
                         HorizontalTextAlignment="Center"
                         Text="{Binding AlertMessage}"
-                        TextColor="White"
+                        TextColor="{Binding AlertTextColor}"
                         VerticalTextAlignment="Center" />
                     <Label
                         AbsoluteLayout.LayoutBounds="1,0"
@@ -232,7 +234,7 @@
                         FontSize="Large"
                         HeightRequest="20"
                         Text="{Static fa:IconFont.X}"
-                        TextColor="White"
+                        TextColor="{Binding AlertTextColor}"
                         WidthRequest="20">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding CloseAlertCommand}" />

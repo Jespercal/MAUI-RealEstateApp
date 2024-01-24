@@ -7,10 +7,11 @@ namespace RealEstateApp.ViewModels;
 
 [QueryProperty(nameof(Mode), "mode")]
 [QueryProperty(nameof(Property), "MyProperty")]
-public class AddEditPropertyPageViewModel : BaseViewModel
+public class AddEditPropertyPageViewModel : BaseViewModel, IDisposable
 {
     readonly IPropertyService service;
     readonly ConnectivityService _connectivityService;
+    readonly BatteryService batteryService;
 
     private string _alertMessage = null;
     public string AlertMessage
@@ -26,21 +27,65 @@ public class AddEditPropertyPageViewModel : BaseViewModel
         set { _alertColor = value;OnPropertyChanged(); }
     }
 
-
-    public AddEditPropertyPageViewModel(IPropertyService service, ConnectivityService connectivityService)
+    private Color _alertTextColor = Colors.White;
+    public Color AlertTextColor
     {
+        get { return _alertTextColor; }
+        set { _alertTextColor = value; OnPropertyChanged(); }
+    }
+
+
+    public AddEditPropertyPageViewModel(IPropertyService service, ConnectivityService connectivityService, BatteryService battery)
+    {
+        this.batteryService = battery;
         this.service = service;
         this._connectivityService = connectivityService;
         Agents = new ObservableCollection<Agent>(service.GetAgents());
 
-        connectivityService.OnStatusChanged += Connectivity_ConnectivityChanged;
-        if(!connectivityService.IsConnected)
+        _connectivityService.OnStatusChanged += Connectivity_ConnectivityChanged;
+        if(!_connectivityService.IsConnected)
         {
             AlertColor = Colors.PaleVioletRed;
+            AlertTextColor = Colors.White;
             AlertMessage = "You need internet to use location";
         }
+        batteryService.OnStatusChanged += Battery_StatusChanged;
     }
 
+    public void Dispose()
+    {
+        _connectivityService.OnStatusChanged -= Connectivity_ConnectivityChanged;
+        batteryService.OnStatusChanged -= Battery_StatusChanged;
+    }
+
+    private async void Battery_StatusChanged()
+    {
+        if (batteryService.ChargeLevel <= 0.2)
+        {
+            if (batteryService.EnergySaverStatus == EnergySaverStatus.On)
+            {
+                AlertMessage = "Energy-saving is on";
+                AlertColor = Colors.Green;
+                AlertTextColor = Colors.White;
+            }
+            else if (batteryService.State == BatteryState.NotCharging)
+            {
+                AlertMessage = "Battery is running low!";
+                AlertColor = Colors.Red;
+                AlertTextColor = Colors.White;
+            }
+            else if (batteryService.State == BatteryState.Charging)
+            {
+                AlertMessage = "Battery low but charging";
+                AlertColor = Colors.Yellow;
+                AlertTextColor = Colors.Black;
+            }
+        }
+        else
+        {
+            AlertMessage = null;
+        }
+    }
     private async void Connectivity_ConnectivityChanged(bool status)
     {
         AlertColor = !status ? Colors.PaleVioletRed : Colors.Green;
@@ -192,5 +237,40 @@ public class AddEditPropertyPageViewModel : BaseViewModel
     public ICommand CloseAlertCommand => closeAlertCommand ??= new Command(async () =>
     {
         AlertMessage = null;
+    });
+
+    private bool _flashlightOn;
+
+    public bool FlashlightOn
+    {
+        get { return _flashlightOn; }
+        set { _flashlightOn = value; OnPropertyChanged(); }
+    }
+
+    private Color flashlightColor = Colors.Black;
+
+    public Color FlashlightColor
+    {
+        get { return flashlightColor; }
+        set { flashlightColor = value; }
+    }
+
+
+
+    private Command toggleFlashlightCommand;
+    public ICommand ToggleFlashlightCommand => toggleFlashlightCommand ??= new Command(async () =>
+    {
+        if (FlashlightOn)
+        {
+            await Flashlight.Default.TurnOffAsync();
+            FlashlightColor = Colors.Black;
+            FlashlightOn = false;
+        }
+        else
+        {
+            await Flashlight.Default.TurnOnAsync();
+            FlashlightColor = Colors.White;
+            FlashlightOn = true;
+        }
     });
 }

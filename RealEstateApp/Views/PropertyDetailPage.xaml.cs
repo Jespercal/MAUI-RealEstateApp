@@ -16,6 +16,6 @@ public partial class PropertyDetailPage : ContentPage
 
     private void PropertyDetailPage_Disappearing(object sender, EventArgs e)
     {
-        _vm.PageDisappearingCommand
+        _vm.PageDisappearingCommand.Execute(null);
     }
 }

@@ -7,7 +7,8 @@
     xmlns:models="clr-namespace:RealEstateApp.Models"
     xmlns:vm="clr-namespace:RealEstateApp.ViewModels"
     Title="PropertyListPage"
-    x:DataType="vm:PropertyListPageViewModel">
+    x:DataType="vm:PropertyListPageViewModel"
+    ControlTemplate="{StaticResource pageControls}">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Command="{Binding GoToAddPropertyCommand}" Text="Add" />
