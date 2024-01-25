@@ -43,11 +43,21 @@
                 Grid.Row="2"
                 FontSize="16"
                 LineBreakMode="NoWrap"
-                Text="{Binding Property.Address}">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding ShowLocationCommand}" />
-                </Label.GestureRecognizers>
-            </Label>
+                Text="{Binding Property.Address}" />
+            <HorizontalStackLayout Spacing="10">
+                <Button
+                    Command="{Binding ShowLocationCommand}"
+                    CommandParameter="show"
+                    FontFamily="FA-solid"
+                    FontSize="Large"
+                    Text="{Static fa:IconFont.MapMarkedAlt}" />
+                <Button
+                    Command="{Binding ShowLocationCommand}"
+                    CommandParameter="navigate"
+                    FontFamily="FA-solid"
+                    FontSize="Large"
+                    Text="{Static fa:IconFont.Directions}" />
+            </HorizontalStackLayout>
             <Grid
                 Grid.Row="3"
                 ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"

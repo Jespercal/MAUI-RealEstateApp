@@ -81,11 +81,15 @@ public class PropertyDetailPageViewModel : BaseViewModel
     }
     
     private Command showLocationCommand;
-    public ICommand ShowLocationCommand => showLocationCommand ??= new Command(async () => await ExecuteShowLocation());
-    async Task ExecuteShowLocation()
+    public ICommand ShowLocationCommand => showLocationCommand ??= new Command(async ( type ) => await ExecuteShowLocation((string)type));
+    async Task ExecuteShowLocation( string type )
     {
         TryStopTTS();
-        await Map.TryOpenAsync( Property.Latitude.Value, Property.Longitude.Value );
+
+        await Map.TryOpenAsync( Property.Latitude.Value, Property.Longitude.Value, new MapLaunchOptions()
+        {
+            NavigationMode = (type == "navigate" ? NavigationMode.Driving : NavigationMode.None)
+        });
     }
     
     private Command pageDisappearingCommand;
