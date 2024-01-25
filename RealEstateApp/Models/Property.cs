@@ -27,6 +27,10 @@ namespace RealEstateApp.Models
         public string Aspect { get; set; }
         public string MainImageUrl => ImageUrls?.FirstOrDefault() ?? GlobalSettings.Instance.NoImageUrl;
 
+        public Vendor Vendor { get; set; }
+
+        public string NeighbourhoodUrl { get; set; }
+
         private ImageSource _mainImageSource;
         public ImageSource MainImageSource => _mainImageSource ??= ImageUtil.GetSourceOrDefault(MainImageUrl);
     }

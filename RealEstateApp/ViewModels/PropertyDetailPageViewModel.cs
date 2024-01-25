@@ -1,4 +1,5 @@
-﻿using RealEstateApp.Models;
+﻿using Microsoft.Maui.ApplicationModel.Communication;
+using RealEstateApp.Models;
 using RealEstateApp.Services;
 using RealEstateApp.Views;
 using System.Diagnostics;
@@ -100,5 +101,17 @@ public class PropertyDetailPageViewModel : BaseViewModel
         {
             {"Property", Property }
         });
+    });
+
+    private Command _callPhoneCommand;
+    public ICommand CallPhoneCommand => _callPhoneCommand ??= new Command(() =>
+    {
+        PhoneDialer.Default.Open(Property.Vendor.Phone);
+    });
+
+    private Command _sendEmailCommand;
+    public ICommand SendEmailCommand => _sendEmailCommand ??= new Command(async () =>
+    {
+        await Email.Default.ComposeAsync(new EmailMessage($"Hej, {Property.Vendor.FirstName}, angående {Property.Address}", "About property"));
     });
 }

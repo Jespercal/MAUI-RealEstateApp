@@ -22,10 +22,7 @@
     </ContentPage.ToolbarItems>
 
     <ScrollView>
-        <Grid
-            Padding="15"
-            RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
-            RowSpacing="10">
+        <VerticalStackLayout Padding="15" Spacing="10">
             <Image
                 Grid.Row="0"
                 Margin="-10,-10,-10,0"
@@ -53,7 +50,7 @@
             </Label>
             <Grid
                 Grid.Row="3"
-                ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
                 ColumnSpacing="10">
                 <Label
                     Grid.Column="0"
@@ -126,8 +123,56 @@
                 Grid.Row="8"
                 FontAttributes="Bold"
                 FontSize="14"
+                Text="Vendor:" />
+            <Grid Grid.Row="9" RowDefinitions="Auto,Auto,Auto">
+                <Label Grid.Row="0">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontFamily="FA-solid" Text="{Static fa:IconFont.UserCircle}" />
+                            <Span Text=" " />
+                            <Span Text="{Binding Property.Vendor.FullName}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label Grid.Row="1">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontFamily="FA-solid" Text="{Static fa:IconFont.Envelope}" />
+                            <Span Text=" " />
+                            <Span
+                                Text="{Binding Property.Vendor.Email}"
+                                TextColor="DodgerBlue"
+                                TextDecorations="Underline">
+                                <Span.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SendEmailCommand}" />
+                                </Span.GestureRecognizers>
+                            </Span>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label Grid.Row="2">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontFamily="FA-solid" Text="{Static fa:IconFont.Phone}" />
+                            <Span Text=" " />
+                            <Span
+                                Text="{Binding Property.Vendor.Phone}"
+                                TextColor="DodgerBlue"
+                                TextDecorations="Underline">
+                                <Span.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding CallPhoneCommand}" />
+                                </Span.GestureRecognizers>
+                            </Span>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </Grid>
+            <Label
+                Grid.Row="10"
+                FontAttributes="Bold"
+                FontSize="14"
                 Text="Listed by:" />
-            <Grid Grid.Row="9" ColumnDefinitions="auto, *">
+            <Grid Grid.Row="11" ColumnDefinitions="auto, *">
                 <Image
                     Grid.Column="0"
                     Source="{Binding Agent.ImageSource}"
@@ -152,6 +197,6 @@
                         Text="{Binding Agent.Phone}" />
                 </Grid>
             </Grid>
-        </Grid>
+        </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
