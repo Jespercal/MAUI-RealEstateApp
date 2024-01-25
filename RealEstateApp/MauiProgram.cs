@@ -4,6 +4,7 @@ using RealEstateApp.Repositories;
 using RealEstateApp.Services;
 using RealEstateApp.ViewModels;
 using RealEstateApp.Views;
+using ZXing.Net.Maui.Controls;
 
 namespace RealEstateApp;
 
@@ -20,6 +21,7 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 fonts.AddFont("fa-solid-900.ttf", "FA-solid");
             })
+            .UseBarcodeReader()
             .UseMauiMaps();
 
         builder.Services.AddSingleton<IPropertyService, MockRepository>();
@@ -43,6 +45,9 @@ public static class MauiProgram
 
         builder.Services.AddPage<ImageListPage>();
         builder.Services.AddTransient<ImageListViewModel>();
+        
+        builder.Services.AddPage<BarcodeScannerPage>();
+        builder.Services.AddTransient<BarcodeScannerViewModel>();
 
 #if DEBUG
         builder.Logging.AddDebug();

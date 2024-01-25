@@ -17,6 +17,11 @@
         Route="heightCalculator" />
 
     <ShellContent
+        Title="Barcode Scanner"
+        ContentTemplate="{DataTemplate views:BarcodeScannerPage}"
+        Route="barcodeScanner" />
+
+    <ShellContent
         Title="About"
         ContentTemplate="{DataTemplate views:AboutPage}"
         Route="about" />
