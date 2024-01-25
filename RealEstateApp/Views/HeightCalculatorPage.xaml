@@ -3,16 +3,47 @@
     x:Class="RealEstateApp.Views.HeightCalculatorPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:RealEstateApp.Models"
     xmlns:viewmodels="clr-namespace:RealEstateApp.ViewModels"
     Title="HeightCalculatorPage"
     x:DataType="viewmodels:HeightCalculatorPageViewModel">
-    <Grid RowDefinitions="*,*,*">
+    <Grid
+        Padding="10"
+        RowDefinitions="Auto,Auto,50,*,*"
+        RowSpacing="5">
         <Label FontSize="Large" Text="{Binding CurrentAltitude, StringFormat='Current Altitude {0:F2} m'}" />
         <Entry
             Grid.Row="1"
             Keyboard="Text"
             Placeholder="Measurement Label"
             Text="{Binding MeasurementLabel}" />
-        <Button Grid.Row="2" />
+        <Button
+            Grid.Row="2"
+            Command="{Binding AddObservationCommand}"
+            Text="Save" />
+        <CollectionView Grid.Row="3" ItemsSource="{Binding Observations}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:BarometerMeasurement">
+                    <Grid
+                        Margin="0,2"
+                        RowDefinitions="Auto,1"
+                        RowSpacing="2">
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span FontSize="Large" Text="{Binding Display}" />
+                                    <Span FontSize="Large" Text=" " />
+                                    <Span
+                                        FontSize="Large"
+                                        Text="{Binding HeightDisplay}"
+                                        TextColor="LightGray" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <BoxView Grid.Row="1" Color="LightGray" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </Grid>
 </ContentPage>

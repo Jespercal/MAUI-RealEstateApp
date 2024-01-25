@@ -43,7 +43,7 @@
                                     Aspect="AspectFit"
                                     HeightRequest="120"
                                     HorizontalOptions="Start"
-                                    Source="{Binding Property.MainImageUrl}" />
+                                    Source="{Binding Property.MainImageSource}" />
                                 <Grid
                                     Grid.Column="1"
                                     Margin="0,10,10,0"

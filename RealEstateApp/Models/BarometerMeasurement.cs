@@ -14,5 +14,6 @@ namespace RealEstateApp.Models
         public double HeightChange { get; set; }
 
         public string Display => $"{Label}: {Altitude:N2}m";
+        public string HeightDisplay => HeightChange != 0 ? $"{(HeightChange > 0 ? "+" : "")}{HeightChange:N2}m" : "";
     }
 }

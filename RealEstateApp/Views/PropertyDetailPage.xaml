@@ -31,7 +31,7 @@
                 Margin="-10,-10,-10,0"
                 Aspect="AspectFill"
                 HeightRequest="225"
-                Source="{Binding Property.MainImageUrl}" />
+                Source="{Binding Property.MainImageSource}" />
             <Label
                 Grid.Row="1"
                 FontAttributes="Bold"
@@ -126,7 +126,7 @@
             <Grid Grid.Row="9" ColumnDefinitions="auto, *">
                 <Image
                     Grid.Column="0"
-                    Source="{Binding Agent.ImageUrl}"
+                    Source="{Binding Agent.ImageSource}"
                     VerticalOptions="Start"
                     WidthRequest="100" />
                 <Grid
