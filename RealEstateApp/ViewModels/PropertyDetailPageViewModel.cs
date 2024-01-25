@@ -92,4 +92,13 @@ public class PropertyDetailPageViewModel : BaseViewModel
     {
         TryStopTTS();
     });
+    
+    private Command _goToImageListCommand;
+    public ICommand GoToImageListCommand => _goToImageListCommand ??= new Command(async () =>
+    {
+        await Shell.Current.GoToAsync(nameof(ImageListPage), new Dictionary<string, object>
+        {
+            {"Property", Property }
+        });
+    });
 }

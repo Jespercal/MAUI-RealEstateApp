@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="RealEstateApp.Views.ImageListPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:RealEstateApp.ViewModels"
+    Title="ImageListPage"
+    x:DataType="viewmodels:ImageListViewModel">
+    <VerticalStackLayout>
+        <Frame
+            BackgroundColor="Yellow"
+            CornerRadius="0"
+            IsVisible="{Binding IsNotSupported}">
+            <Label Text="Accelerometer is not supported" TextColor="Black" />
+        </Frame>
+        <CarouselView ItemsSource="{Binding Property.ImageUrls}" Position="{Binding Interval}">
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout>
+                        <Frame
+                            Margin="20"
+                            BorderColor="DarkGray"
+                            CornerRadius="5"
+                            HasShadow="True"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Start">
+                            <Image
+                                Aspect="AspectFit"
+                                HeightRequest="250"
+                                HorizontalOptions="Center"
+                                Source="{Binding Path=.}"
+                                WidthRequest="250" />
+                        </Frame>
+                    </StackLayout>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+    </VerticalStackLayout>
+</ContentPage>
