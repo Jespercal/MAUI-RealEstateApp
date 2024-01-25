@@ -129,6 +129,18 @@
                     Text="{Static fa:IconFont.Stop}"
                     WidthRequest="45" />
             </StackLayout>
+            <Button
+                Command="{Binding GoToWebsiteCommand}"
+                FontFamily="FA-solid"
+                Text="{Static fa:IconFont.Link}" />
+            <Button
+                Command="{Binding OpenContractCommand}"
+                FontFamily="FA-solid"
+                Text="{Static fa:IconFont.FileSignature}" />
+            <Button
+                Command="{Binding OpenFBCommand}"
+                FontFamily="FA-solid"
+                Text="{Static fa:IconFont.Users}" />
             <Label
                 Grid.Row="8"
                 FontAttributes="Bold"

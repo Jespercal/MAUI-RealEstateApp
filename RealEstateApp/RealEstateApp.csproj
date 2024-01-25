@@ -90,6 +90,7 @@
 	  <None Remove="Resources\Images\fa_sort_amount_asc.png" />
 	  <None Remove="Resources\Images\lightbulb_solid.svg" />
 	  <None Remove="Resources\Images\no_image.jpg" />
+	  <None Remove="Resources\Raw\contract.pdf" />
 	</ItemGroup>
 
 	<ItemGroup>

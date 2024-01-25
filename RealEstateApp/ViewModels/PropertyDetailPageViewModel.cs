@@ -112,16 +112,35 @@ public class PropertyDetailPageViewModel : BaseViewModel
     {
         PhoneDialer.Default.Open(Property.Vendor.Phone);
     });
+    
 
     private Command _sendEmailCommand;
     public ICommand SendEmailCommand => _sendEmailCommand ??= new Command(async () =>
     {
-        var folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        var attachmentFilePath = Path.Combine(folder, "property.txt");
+        var attachmentFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, "property.txt");
         await File.WriteAllTextAsync(attachmentFilePath, $"{Property.Address}");
 
         var email = new EmailMessage($"Hello, {Property.Vendor.FirstName}, regarding the property {Property.Address}", "About the property");
         email.Attachments.Add(new EmailAttachment(attachmentFilePath));
         await Email.Default.ComposeAsync(email);
+    });
+
+
+    private Command _goToWebsiteCommand;
+    public ICommand GoToWebsiteCommand => _goToWebsiteCommand ??= new Command(async () =>
+    {
+        await Browser.Default.OpenAsync(Property.NeighbourhoodUrl, BrowserLaunchMode.SystemPreferred);
+    });
+    
+    private Command _openContractCommand;
+    public ICommand OpenContractCommand => _openContractCommand ??= new Command(async () =>
+    {
+        await Launcher.Default.OpenAsync(new OpenFileRequest("Show Contract", new ReadOnlyFile(Property.ContractFilePath)));
+    });
+
+    private Command _openFBCommand;
+    public ICommand OpenFBCommand => _openFBCommand ??= new Command(async () =>
+    {
+        await Launcher.Default.TryOpenAsync("fb://");
     });
 }
