@@ -112,6 +112,12 @@ public class PropertyDetailPageViewModel : BaseViewModel
     private Command _sendEmailCommand;
     public ICommand SendEmailCommand => _sendEmailCommand ??= new Command(async () =>
     {
-        await Email.Default.ComposeAsync(new EmailMessage($"Hej, {Property.Vendor.FirstName}, angående {Property.Address}", "About property"));
+        var folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        var attachmentFilePath = Path.Combine(folder, "property.txt");
+        await File.WriteAllTextAsync(attachmentFilePath, $"{Property.Address}");
+
+        var email = new EmailMessage($"Hello, {Property.Vendor.FirstName}, regarding the property {Property.Address}", "About the property");
+        email.Attachments.Add(new EmailAttachment(attachmentFilePath));
+        await Email.Default.ComposeAsync(email);
     });
 }
