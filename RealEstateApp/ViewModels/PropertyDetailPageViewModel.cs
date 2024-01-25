@@ -3,6 +3,8 @@ using RealEstateApp.Models;
 using RealEstateApp.Services;
 using RealEstateApp.Views;
 using System.Diagnostics;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Windows.Input;
 
 namespace RealEstateApp.ViewModels;
@@ -142,5 +144,38 @@ public class PropertyDetailPageViewModel : BaseViewModel
     public ICommand OpenFBCommand => _openFBCommand ??= new Command(async () =>
     {
         await Launcher.Default.TryOpenAsync("fb://");
+    });
+    
+    private Command _sharePropertyCommand;
+    public ICommand SharePropertyCommand => _sharePropertyCommand ??= new Command(async (type) =>
+    {
+        string shareType = (string)type;
+        switch(shareType)
+        {
+            case "text":
+                await Share.Default.RequestAsync(new ShareTextRequest()
+                {
+                    Uri = Property.NeighbourhoodUrl,
+                    Subject = "A property you may be interested in",
+                    Text = $"Located at {Property.Address}, priced at {Property.Price}, with {Property.Beds} bed(s), {Property.Baths} bath(s) and {Property.Parking} parking(s).",
+                    Title = "Share Property"
+                });
+                break;
+            case "file":
+                await Share.Default.RequestAsync(new ShareFileRequest()
+                {
+                    File = new ShareFile(Property.ContractFilePath),
+                    Title = "Share Property Contract"
+                });
+                break;
+            case "clipboard":
+                var serialized = JsonSerializer.Serialize<Property>(Property, new JsonSerializerOptions()
+                {
+                    MaxDepth= 3,
+                    ReferenceHandler = ReferenceHandler.Preserve
+                });
+                await Clipboard.Default.SetTextAsync(serialized);
+                break;
+        }
     });
 }

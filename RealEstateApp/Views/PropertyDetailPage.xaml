@@ -141,6 +141,25 @@
                 Command="{Binding OpenFBCommand}"
                 FontFamily="FA-solid"
                 Text="{Static fa:IconFont.Users}" />
+            <Grid ColumnDefinitions="*,*,*">
+                <Button
+                    Command="{Binding SharePropertyCommand}"
+                    CommandParameter="text"
+                    FontFamily="FA-solid"
+                    Text="{Static fa:IconFont.ShareAlt}" />
+                <Button
+                    Grid.Column="1"
+                    Command="{Binding SharePropertyCommand}"
+                    CommandParameter="file"
+                    FontFamily="FA-solid"
+                    Text="{Static fa:IconFont.ShareSquare}" />
+                <Button
+                    Grid.Column="2"
+                    Command="{Binding SharePropertyCommand}"
+                    CommandParameter="clipboard"
+                    FontFamily="FA-solid"
+                    Text="{Static fa:IconFont.ShareSquare}" />
+            </Grid>
             <Label
                 Grid.Row="8"
                 FontAttributes="Bold"

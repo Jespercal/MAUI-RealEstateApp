@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 
 namespace RealEstateApp.Models
 {
@@ -33,7 +34,9 @@ namespace RealEstateApp.Models
 
         public string NeighbourhoodUrl { get; set; }
 
+        [JsonIgnore]
         private ImageSource _mainImageSource;
+        [JsonIgnore]
         public ImageSource MainImageSource => _mainImageSource ??= ImageUtil.GetSourceOrDefault(MainImageUrl);
     }
 }
