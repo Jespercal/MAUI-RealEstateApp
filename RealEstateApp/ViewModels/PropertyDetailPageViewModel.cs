@@ -44,6 +44,7 @@ public class PropertyDetailPageViewModel : BaseViewModel
             ttsCancelToken = new CancellationTokenSource();
             await TextToSpeech.Default.SpeakAsync(Property.Description, new SpeechOptions()
             {
+                Locale = _ps.TTS_Locale,
                 Pitch = (float)_ps.TTS_Pitch,
                 Volume = (float)_ps.TTS_Volume
             }, cancelToken: ttsCancelToken.Token);

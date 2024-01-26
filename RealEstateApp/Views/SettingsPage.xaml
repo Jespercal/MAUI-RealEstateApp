@@ -38,6 +38,29 @@
                                     Value="{Binding TTS_Pitch}" />
                         </Grid>
                     </ViewCell>
+                    <ViewCell>
+                        <Grid RowDefinitions="Auto,Auto"
+                              ColumnDefinitions="0.5*,0.5*">
+                            <Label Text="Text-to-speech Locale"
+                                   Margin="10,10,0,0"/>
+                            <Label Grid.Column="1" Text="{Binding TTS_Pitch, StringFormat='{0:F2}'}"
+                                   Margin="10,10,0,0"/>
+                            <Picker Grid.Row="1"
+                                    Grid.ColumnSpan="2"
+                                    Margin="10"
+                                    ItemsSource="{Binding Locales}"
+                                    SelectedItem="{Binding TTS_Locale}">
+                                <Picker.ItemDisplayBinding>
+                                    <MultiBinding StringFormat="{}{0} - {1}">
+                                        <Binding Path="Language" />
+                                        <Binding Path="Name" />
+                                </MultiBinding>
+
+                                </Picker.ItemDisplayBinding>
+
+                            </Picker>
+                        </Grid>
+                    </ViewCell>
                 </TableSection>
             </TableRoot>
         </TableView>
