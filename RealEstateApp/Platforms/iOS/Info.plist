@@ -30,5 +30,9 @@
 	<string>Assets.xcassets/appicon.appiconset</string>
 	<key>CFBundleIdentifier</key>
 	<string>jespercal.realestateapp</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Locate where the house you are in are located.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Used to scan QR codes.</string>
 </dict>
 </plist>

@@ -31,4 +31,19 @@ public class BarcodeScannerViewModel : BaseViewModel, ILeaving
 
         await Shell.Current.GoToAsync("//propertylist");
     });
+
+    private Command _flipCameraCommand;
+    public ICommand FlipCameraCommand => _flipCameraCommand ??= new Command(async (r) =>
+    {
+    });
+
+    private Command _flashlightCommand;
+    public ICommand FlashlightCommand => _flashlightCommand ??= new Command(async (r) =>
+    {
+    });
+
+    private Command _scanAgainCommand;
+    public ICommand ScanAgainCommand => _scanAgainCommand ??= new Command(async (r) =>
+    {
+    });
 }

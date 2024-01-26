@@ -1,14 +1,20 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
     x:Class="RealEstateApp.Views.BarcodeScannerPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:viewmodels="clr-namespace:RealEstateApp.ViewModels"
     xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+    xmlns:fa="clr-namespace:FontAwesome"
     Title="BarcodeScannerPage"
     NavigatedTo="ContentPage_NavigatedTo"
     x:DataType="viewmodels:BarcodeScannerViewModel">
-    <VerticalStackLayout>
+    <Grid ColumnDefinitions="*" RowDefinitions="*,50">
         <zxing:CameraBarcodeReaderView x:Name="cameraBarcodeReaderView" BarcodesDetected="cameraBarcodeReaderView_BarcodesDetected" />
-    </VerticalStackLayout>
+        <Grid ColumnDefinitions="*,*,*" Margin="5" ColumnSpacing="5">
+            <Button Command="{Binding FlipCameraCommand}" Text="{Static fa:IconFont.ArrowCircleUp}" FontFamily="FA-solid" />
+            <Button Grid.Column="1" Command="{Binding FlashlightCommand}" Text="{Static fa:IconFont.Lightbulb}" FontFamily="FA-solid" />
+            <Button Command="{Binding ScanAgainCommand}" Text="{Static fa:IconFont.Camera}" FontFamily="FA-solid" />
+        </Grid>
+    </Grid>
 </ContentPage>
