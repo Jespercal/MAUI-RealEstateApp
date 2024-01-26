@@ -28,6 +28,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<ConnectivityService>();
         builder.Services.AddSingleton<BatteryService>();
         builder.Services.AddSingleton<PreferenceService>(new PreferenceService());
+        builder.Services.AddSingleton<SettingsService>(new SettingsService());
+
 
         builder.Services.AddSingleton<PropertyListPage>();
         builder.Services.AddSingleton<PropertyListPageViewModel>();
@@ -52,6 +54,12 @@ public static class MauiProgram
 
         builder.Services.AddPage<SettingsPage>();
         builder.Services.AddTransient<SettingsViewModel>();
+
+        builder.Services.AddPage<LoginPage>();
+        builder.Services.AddTransient<LoginViewModel>();
+
+        builder.Services.AddPage<SecurePage>();
+        builder.Services.AddTransient<SecureViewModel>();
 
 #if DEBUG
         builder.Logging.AddDebug();

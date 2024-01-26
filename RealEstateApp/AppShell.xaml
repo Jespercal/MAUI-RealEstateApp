@@ -22,6 +22,11 @@
         Route="barcodeScanner" />
 
     <ShellContent
+        Title="Secure Page"
+        ContentTemplate="{DataTemplate views:LoginPage}"
+        Route="secret" />
+
+    <ShellContent
         Title="Settings"
         ContentTemplate="{DataTemplate views:SettingsPage}"
         Route="settings" />
