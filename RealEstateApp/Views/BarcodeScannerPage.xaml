@@ -11,10 +11,10 @@
     x:DataType="viewmodels:BarcodeScannerViewModel">
     <Grid ColumnDefinitions="*" RowDefinitions="*,50">
         <zxing:CameraBarcodeReaderView x:Name="cameraBarcodeReaderView" BarcodesDetected="cameraBarcodeReaderView_BarcodesDetected" />
-        <Grid ColumnDefinitions="*,*,*" Margin="5" ColumnSpacing="5">
+        <Grid Grid.Row="1" ColumnDefinitions="*,*,*" Margin="5" ColumnSpacing="5">
             <Button Command="{Binding FlipCameraCommand}" Text="{Static fa:IconFont.ArrowCircleUp}" FontFamily="FA-solid" />
             <Button Grid.Column="1" Command="{Binding FlashlightCommand}" Text="{Static fa:IconFont.Lightbulb}" FontFamily="FA-solid" />
-            <Button Command="{Binding ScanAgainCommand}" Text="{Static fa:IconFont.Camera}" FontFamily="FA-solid" />
+            <Button Grid.Column="2" Command="{Binding ScanAgainCommand}" Text="{Static fa:IconFont.Camera}" FontFamily="FA-solid" />
         </Grid>
     </Grid>
 </ContentPage>

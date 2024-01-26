@@ -13,9 +13,11 @@ namespace RealEstateApp.ViewModels;
 public class PropertyDetailPageViewModel : BaseViewModel
 {
     private readonly IPropertyService service;
-    public PropertyDetailPageViewModel(IPropertyService service)
+    private readonly PreferenceService _ps;
+    public PropertyDetailPageViewModel(IPropertyService service, PreferenceService ps)
     {
         this.service = service;
+        _ps = ps;
     }
 
     Property property;
@@ -37,12 +39,14 @@ public class PropertyDetailPageViewModel : BaseViewModel
     private Command tTSCommand;
     public ICommand TTSCommand => tTSCommand ??= new Command( async (e) =>
     {
-        Debug.WriteLine(Shell.Current.GetType().Name);
-        Debug.WriteLine(Shell.Current.CurrentPage.GetType().Name);
         if((string)e == "play") {
             IsPlaying = true;
             ttsCancelToken = new CancellationTokenSource();
-            await TextToSpeech.Default.SpeakAsync(Property.Description, cancelToken: ttsCancelToken.Token);
+            await TextToSpeech.Default.SpeakAsync(Property.Description, new SpeechOptions()
+            {
+                Pitch = (float)_ps.TTS_Pitch,
+                Volume = (float)_ps.TTS_Volume
+            }, cancelToken: ttsCancelToken.Token);
             IsPlaying = false;
         } else if((string)e == "stop") {
             TryStopTTS();

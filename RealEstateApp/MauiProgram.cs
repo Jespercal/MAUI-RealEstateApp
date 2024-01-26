@@ -27,6 +27,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IPropertyService, MockRepository>();
         builder.Services.AddSingleton<ConnectivityService>();
         builder.Services.AddSingleton<BatteryService>();
+        builder.Services.AddSingleton<PreferenceService>(new PreferenceService());
 
         builder.Services.AddSingleton<PropertyListPage>();
         builder.Services.AddSingleton<PropertyListPageViewModel>();
@@ -48,6 +49,9 @@ public static class MauiProgram
         
         builder.Services.AddPage<BarcodeScannerPage>();
         builder.Services.AddTransient<BarcodeScannerViewModel>();
+
+        builder.Services.AddPage<SettingsPage>();
+        builder.Services.AddTransient<SettingsViewModel>();
 
 #if DEBUG
         builder.Logging.AddDebug();
